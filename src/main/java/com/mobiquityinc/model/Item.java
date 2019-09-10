@@ -33,6 +33,13 @@ public class Item {
     }
 
     /**
+     * Test's constructor's
+     */
+    public Item(int index) {
+        this.index = index;
+    }
+
+    /**
      * Index's getter
      * @return index
      */
