@@ -1,6 +1,6 @@
-package mobiquityinc.model;
+package com.mobiquityinc.model;
 
-import com.Item;
+import com.mobiquityinc.model.Item;
 import com.mobiquityinc.exception.APIException;
 import org.junit.Test;
 

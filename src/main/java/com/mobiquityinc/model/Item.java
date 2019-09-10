@@ -1,4 +1,4 @@
-package com;
+package com.mobiquityinc.model;
 
 import com.mobiquityinc.exception.APIException;
 import org.apache.commons.validator.routines.FloatValidator;
