@@ -1,10 +1,12 @@
 package com.mobiquityinc.model;
 
 import com.mobiquityinc.exception.APIException;
+import com.mobiquityinc.packer.ZeroOneKnapsack;
 import org.apache.commons.validator.routines.FloatValidator;
 import org.apache.commons.validator.routines.IntegerValidator;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Domain class to storage information from Package
@@ -15,6 +17,8 @@ import java.util.List;
 public class Package {
     private Float weigh;
     private List<Item> items;
+
+    private ZeroOneKnapsack zok;
 
     /**
      * Package's constructor
@@ -31,5 +35,49 @@ public class Package {
 
         this.weigh = weigh;
         this.items = items;
+
+        this.zok = new ZeroOneKnapsack(this.getWeighAsInteger());
+
+        for (Item item : items){
+            zok.add(item.getIndexAsString(), item.getWeightAsInteger(), item.getCostAsInteger());
+        }
+        zok.calcSolution();
+    }
+
+    /**
+     * Weight packages
+     * @return
+     */
+    public Float getWeigh(){
+        return weigh;
+    }
+
+    /**
+     * Weight packages
+     * @return
+     */
+    public Integer getWeighAsInteger(){
+        return (int) (weigh * 100);
+    }
+
+    /**
+     * Items getter
+     * @return items
+     */
+    public List<Item> getItems(){
+        return items;
+    }
+
+    /**
+     * Get items index list comma separated
+     * @param aPackage to process
+     * @return list
+     */
+    public static String getPackages(Package aPackage) {
+        return aPackage.getItems()
+                .stream()
+                .filter(item -> item.getInKnapsack() == 1)
+                .map(Item::getIndexAsString)
+                .collect(Collectors.joining(","));
     }
 }

@@ -34,7 +34,7 @@ public class ReaderHelper {
      * @return List of packages
      * @throws APIException if something went wrong
      */
-    static List<Package> readFile(String path) throws APIException {
+    static public List<Package> readFile(String path) throws APIException {
         File file = new File(path);
         List<Package> packages = new ArrayList<>();
 
