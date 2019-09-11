@@ -1,4 +1,4 @@
-package com.mobiquityinc.packer;
+package com.mobiquityinc.knapsack;
 
 import com.mobiquityinc.exception.APIException;
 import com.mobiquityinc.model.Item;
@@ -35,7 +35,7 @@ public class ZeroOneKnapsack {
     }
 
     // calculte the solution of 0-1 knapsack problem with dynamic method:
-    public List<Item> calcSolution() {
+    public List<Item> calcSolution() throws APIException {
         int n = itemList.size();
 
         setInitialStateForCalculation();
@@ -120,7 +120,7 @@ public class ZeroOneKnapsack {
         setInitialStateForCalculation();
     }
 
-    public int getProfit() {
+    public int getProfit() throws APIException {
         if (!calculated)
             calcSolution();
         return profit;
@@ -158,6 +158,10 @@ public class ZeroOneKnapsack {
         calculated     = false;
         profit         = 0;
         solutionWeight = 0;
+    }
+
+    public List<Item> getItemList(){
+        return this.itemList;
     }
 
 } // class

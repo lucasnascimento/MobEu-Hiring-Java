@@ -1,7 +1,7 @@
 package com.mobiquityinc.model;
 
 import com.mobiquityinc.exception.APIException;
-import com.mobiquityinc.packer.ZeroOneKnapsack;
+import com.mobiquityinc.knapsack.*;
 import org.apache.commons.validator.routines.FloatValidator;
 import org.apache.commons.validator.routines.IntegerValidator;
 
@@ -19,6 +19,10 @@ public class Package {
     private List<Item> items;
 
     private ZeroOneKnapsack zok;
+//    private UnboundedKnapsack uk;
+//    private BoundedKnapsack bok;
+//    private ContinuousKnapsack ck;
+//    private Knapsack k;
 
     /**
      * Package's constructor
@@ -42,6 +46,25 @@ public class Package {
             zok.add(item.getIndexAsString(), item.getWeightAsInteger(), item.getCostAsInteger());
         }
         zok.calcSolution();
+//
+//        uk = new UnboundedKnapsack(weigh, items, 15f);
+//
+//        this.bok = new BoundedKnapsack();
+//
+//        for (Item item : items){
+//            bok.add(item.getIndexAsString(), item.getWeightAsInteger(), item.getCostAsInteger());
+//        }
+//        List<Item> items1 = zok.calcSolution();
+//
+//        ck = new ContinuousKnapsack(weigh);
+//        for (Item item : items){
+//            ck.add(item.getIndexAsString(), item.getWeight(), item.getCost());
+//        }
+//        List<Item> items2 = ck.calcSolution();
+//
+//        k = new Knapsack(items.toArray(new Item[items.size()]), (int)( weigh * 100));
+//        Solution solution = k.solve();
+
     }
 
     /**
@@ -70,14 +93,18 @@ public class Package {
 
     /**
      * Get items index list comma separated
-     * @param aPackage to process
      * @return list
      */
-    public static String getPackages(Package aPackage) {
-        return aPackage.getItems()
+    public String getPackages() {
+        String indexList = this.zok.getItemList()
                 .stream()
                 .filter(item -> item.getInKnapsack() == 1)
                 .map(Item::getIndexAsString)
                 .collect(Collectors.joining(","));
+
+        if (indexList.equals(""))
+            return "-";
+
+        return indexList;
     }
 }

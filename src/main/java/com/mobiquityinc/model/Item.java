@@ -9,13 +9,15 @@ import org.apache.commons.validator.routines.FloatValidator;
  * @author Lucas Nascimento
  *
  */
-public class Item {
+public class Item implements Comparable{
     private Integer index;
     private Float weight;
     private Float cost;
+    private Float volume = 1f;
 
     private int bounding   = 1;
     private int inKnapsack = 0;
+    private double inKnapsackDouble;
 
     /**
      * Constructor's Item
@@ -152,5 +154,48 @@ public class Item {
         setCost(cost);
         setBounding(bounding);
         setInKnapsack(inKnapsack);
+    }
+
+    /**
+     * Volume's package
+     * @return volume
+     */
+    public Float getVolume(){
+        return this.volume;
+    }
+
+    /**
+     * Volumes setter
+     * @param volume volume
+     */
+    public void setVolume(float volume) {
+        this.volume = volume;
+    }
+
+    @Override
+    public int compareTo(Object item) {
+        int result = 0;
+        Item i2 = (Item)item;
+        double rate1 = cost / weight;
+        double rate2 = i2.cost / i2.weight;
+        if (rate1 > rate2) result = -1;  // if greater, put it previously
+        else if (rate1 < rate2) result = 1;
+        return result;
+    }
+
+    /**
+     * Double in Knapsack
+     * @return Double in Knapsack
+     */
+    public double getInKnapsackDouble() {
+        return inKnapsackDouble;
+    }
+
+    /**
+     * Double in Knapsack
+     * @param inKnapsackDouble Double in Knapsack
+     */
+    public void setInKnapsackDouble(double inKnapsackDouble) {
+        this.inKnapsackDouble = inKnapsackDouble;
     }
 }

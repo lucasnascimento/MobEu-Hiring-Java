@@ -27,7 +27,10 @@ public class Packer {
     List<Package> packages = ReaderHelper.readFile(filePath);
 
     StringBuilder sb = new StringBuilder();
-    packages.stream().map(Package::getPackages).map(sb::append);
+    packages.forEach(aPackage -> {
+      String indexList = aPackage.getPackages();
+      sb.append(indexList).append("\n");
+    });
 
     return sb.toString();
   }
