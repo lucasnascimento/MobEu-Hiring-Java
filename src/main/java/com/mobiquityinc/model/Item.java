@@ -3,34 +3,37 @@ package com.mobiquityinc.model;
 import com.mobiquityinc.exception.APIException;
 import org.apache.commons.validator.routines.FloatValidator;
 
-import java.util.List;
-
 /**
  * Domain class to storage information from Package Item
  *
  * @author Lucas Nascimento
  *
  */
-public class Item {
+public class Item implements Comparable{
     private Integer index;
-    private Float weigh;
+    private Float weight;
     private Float cost;
+    private Float volume = 1f;
+
+    private int bounding   = 1;
+    private int inKnapsack = 0;
+    private double inKnapsackDouble;
 
     /**
      * Constructor's Item
      *
      * @param index of an item
-     * @param weigh of an item
+     * @param weight of an item
      * @param cost og on item
      * @throws APIException if not Max weight and cost of an item is ≤ 100
      */
-    public Item(Integer index, Float weigh, Float cost) throws APIException {
-        if (!FloatValidator.getInstance().maxValue(weigh, 100))
+    public Item(Integer index, Float weight, Float cost) throws APIException {
+        if (!FloatValidator.getInstance().maxValue(weight, 100))
             throw new APIException("Max weigh is 100");
         if (!FloatValidator.getInstance().maxValue(cost, 100))
             throw new APIException(("Max cost is 100"));
         this.index = index;
-        this.weigh = weigh;
+        this.weight = weight;
         this.cost = cost;
     }
 
@@ -50,6 +53,14 @@ public class Item {
     }
 
     /**
+     * Index's getter
+     * @return index
+     */
+    public String getIndexAsString() {
+        return String.valueOf(index);
+    }
+
+    /**
      * Index's setter
      * @param index of an item
      */
@@ -61,16 +72,24 @@ public class Item {
      * Weigh's getter
      * @return weigh
      */
-    public Float getWeigh() {
-        return weigh;
+    public Float getWeight() {
+        return weight;
+    }
+
+    /**
+     * Weigh's getter
+     * @return weigh
+     */
+    public Integer getWeightAsInteger() {
+        return (int) (weight * 100);
     }
 
     /**
      * Weigh's setter
-     * @param weigh of an item
+     * @param weight of an item
      */
-    public void setWeigh(Float weigh) {
-        this.weigh = weigh;
+    public void setWeight(Float weight) {
+        this.weight = weight;
     }
 
     /**
@@ -82,10 +101,101 @@ public class Item {
     }
 
     /**
+     * Cost's getter
+     * @return cost
+     */
+    public Integer getCostAsInteger() {
+        return (int) (cost * 100);
+    }
+
+    /**
      * Cost's setter
      * @param cost of an item
      */
     public void setCost(Float cost) {
         this.cost = cost;
+    }
+
+
+    /**
+     * Bounding's setter
+     * @return bounding
+     */
+    public int getBounding() {
+        return bounding;
+    }
+
+    /**
+     * Bounding's getter
+     * @param bounding in package
+     */
+    public void setBounding(int bounding) {
+        this.bounding = bounding;
+    }
+
+    /**
+     * Flag's in Package
+     * @return
+     */
+    public int getInKnapsack() {
+        return inKnapsack;
+    }
+
+    /**
+     * Flag's in Package
+     * @param inKnapsack
+     */
+    public void setInKnapsack(int inKnapsack) {
+        this.inKnapsack = inKnapsack;
+    }
+
+    public void checkMembers() {
+        setWeight(weight);
+        setCost(cost);
+        setBounding(bounding);
+        setInKnapsack(inKnapsack);
+    }
+
+    /**
+     * Volume's package
+     * @return volume
+     */
+    public Float getVolume(){
+        return this.volume;
+    }
+
+    /**
+     * Volumes setter
+     * @param volume volume
+     */
+    public void setVolume(float volume) {
+        this.volume = volume;
+    }
+
+    @Override
+    public int compareTo(Object item) {
+        int result = 0;
+        Item i2 = (Item)item;
+        double rate1 = cost / weight;
+        double rate2 = i2.cost / i2.weight;
+        if (rate1 > rate2) result = -1;  // if greater, put it previously
+        else if (rate1 < rate2) result = 1;
+        return result;
+    }
+
+    /**
+     * Double in Knapsack
+     * @return Double in Knapsack
+     */
+    public double getInKnapsackDouble() {
+        return inKnapsackDouble;
+    }
+
+    /**
+     * Double in Knapsack
+     * @param inKnapsackDouble Double in Knapsack
+     */
+    public void setInKnapsackDouble(double inKnapsackDouble) {
+        this.inKnapsackDouble = inKnapsackDouble;
     }
 }
