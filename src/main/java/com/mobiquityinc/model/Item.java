@@ -3,6 +3,8 @@ package com.mobiquityinc.model;
 import com.mobiquityinc.exception.APIException;
 import org.apache.commons.validator.routines.FloatValidator;
 
+import java.util.List;
+
 /**
  * Domain class to storage information from Package Item
  *
